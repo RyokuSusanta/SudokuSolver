@@ -1,0 +1,2 @@
+public class BoardReaderSDK {
+}
