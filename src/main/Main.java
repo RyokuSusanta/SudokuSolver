@@ -3,8 +3,11 @@ import java.io.FileNotFoundException;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        Board myBoard = new Board("src/scratch.txt");
-        System.out.println(myBoard.toString());
+        Board myBoardSDK = new Board("src/resources/scratch.sdk");
+        System.out.println(myBoardSDK.toString());
+
+        Board myBoardSS = new Board("src/resources/scratch.ss");
+        System.out.println(myBoardSS.toString());
     }
 
 }
