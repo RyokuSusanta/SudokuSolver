@@ -58,4 +58,5 @@ public class BoardTest {
     public void wrongFileFormat() throws FileNotFoundException {
         Board testBoard = new Board("src/resources/scratch.txt");
     }
+
 }

@@ -8,6 +8,8 @@ public class Main {
 
         Board myBoardSS = new Board("src/resources/scratch.ss");
         System.out.println(myBoardSS.toString());
+        System.out.println(myBoardSS.isValid());
+        System.out.println(myBoardSS.isSolved());
     }
 
 }
