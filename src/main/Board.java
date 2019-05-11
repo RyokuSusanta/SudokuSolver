@@ -13,7 +13,11 @@ public class Board {
     }
 
     public Board(String[][] board) {
-        this.board = board;
+        this.board = new String[9][9];
+        for (int i = 0; i < 9; i++) {
+            this.board[i] = Arrays.copyOf(board[i], 9);
+        }
+
     }
 
     public boolean isValid() {
@@ -83,6 +87,9 @@ public class Board {
         return isValid();
     }
 
+    // Before I pass the "real" part of the helper function on solving the sudoku solver. I first make sure to find
+    // how many unfilled parts are in the sudoku and then use those to find all of the possible solution until the unfilled
+    // part is non-existent.
     public void solve() {
         int unfilled = 0;
         for (int i = 0; i < 9; i++) {
@@ -93,7 +100,7 @@ public class Board {
             }
         }
 
-        this.board = solveHelper(board, unfilled);
+        this.board = solveHelper(this.board, unfilled);
     }
 
     private static String[][] solveHelper(String[][] board, int unfilled) {
@@ -102,7 +109,7 @@ public class Board {
         }
 
         for (String[][] option : getNeighbors(board)) {
-            String[][] result = solveHelper(option, unfilled - 1);
+            String[][] result = solveHelper(option,unfilled - 1);
             if (result != null) {
                 return result;
             }
@@ -110,15 +117,16 @@ public class Board {
         return null;
     }
 
+    // I've decided to create a static method on getNeighbors that takes in a Board parameter. Because in my perspective
+    // This is the most straight-forward method for this specific method, and the one where it is easiest to be understood.
     private static List<String[][]> getNeighbors(String[][] board) {
         List<String[][]> options = new ArrayList<>();
-         FIND_FIRST_UNFILLED:
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (board[i][j].equals(".")) {
                         for (int k = 1; k < 10; k++) {
-                            board[i][j] = Integer.toString(k);
-                            Board classBoard = new Board(board);
+                             board[i][j] = Integer.toString(k);
+                             Board classBoard = new Board(board);
                             if (classBoard.isValid()) {
                                 String[][] possibleBoard = new String[9][9];
                                 for (int l = 0; l < 9; l++) {
@@ -127,7 +135,6 @@ public class Board {
                                 options.add(possibleBoard);
                             }
                         }
-                        break FIND_FIRST_UNFILLED;
                     }
                 }
             }
