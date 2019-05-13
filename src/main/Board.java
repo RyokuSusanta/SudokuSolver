@@ -109,7 +109,7 @@ public class Board {
         }
 
         for (String[][] option : getNeighbors(board)) {
-            String[][] result = solveHelper(option,unfilled - 1);
+            String[][] result = solveHelper(option, unfilled - 1);
             if (result != null) {
                 return result;
             }
@@ -119,31 +119,39 @@ public class Board {
 
     // I've decided to create a static method on getNeighbors that takes in a Board parameter. Because in my perspective
     // This is the most straight-forward method for this specific method, and the one where it is easiest to be understood.
+    // By first check whether a "spot" is empty or not, then creating a new class to try out all the possible numbers before
+    // checking if its valid or not to add the possible solutions to the lists of options. I've also created a new constructor
+    // and getters to fully able to use the class in this method.
     private static List<String[][]> getNeighbors(String[][] board) {
         List<String[][]> options = new ArrayList<>();
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    if (board[i][j].equals(".")) {
-                        for (int k = 1; k < 10; k++) {
-                             board[i][j] = Integer.toString(k);
-                             Board classBoard = new Board(board);
-                            if (classBoard.isValid()) {
-                                String[][] possibleBoard = new String[9][9];
-                                for (int l = 0; l < 9; l++) {
-                                    possibleBoard[l] = Arrays.copyOf(classBoard.getRow(l), 9);
-                                }
-                                options.add(possibleBoard);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j].equals(".")) {
+                    for (int k = 1; k < 10; k++) {
+                        board[i][j] = Integer.toString(k);
+                        Board classBoard = new Board(board);
+                        if (classBoard.isValid()) {
+                            String[][] possibleBoard = new String[9][9];
+                            for (int l = 0; l < 9; l++) {
+                                possibleBoard[l] = Arrays.copyOf(classBoard.getRow(l), 9);
                             }
+                            options.add(possibleBoard);
                         }
                     }
                 }
             }
+        }
 
         return options;
     }
 
-    public String[][] getBoard() { return this.board; }
-    public String[] getRow(int row) { return this.board[row]; }
+    public String[][] getBoard() {
+        return this.board;
+    }
+
+    public String[] getRow(int row) {
+        return this.board[row];
+    }
 
     public String toString() {
         StringBuilder result = new StringBuilder();
