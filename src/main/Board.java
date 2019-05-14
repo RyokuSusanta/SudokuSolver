@@ -87,9 +87,8 @@ public class Board {
         return isValid();
     }
 
-    // Before I pass the "real" part of the helper function on solving the sudoku solver. I first make sure to find
-    // how many unfilled parts are in the sudoku and then use those to find all of the possible solution until the unfilled
-    // part is non-existent.
+    // I've created the solve inside the board class so I can utilize the field in the board rather
+    // than passing a parameter if I created it inside the main class.
     public void solve() {
         int unfilled = 0;
         for (int i = 0; i < 9; i++) {
@@ -117,11 +116,9 @@ public class Board {
         return null;
     }
 
-    // I've decided to create a static method on getNeighbors that takes in a Board parameter. Because in my perspective
-    // This is the most straight-forward method for this specific method, and the one where it is easiest to be understood.
-    // By first check whether a "spot" is empty or not, then creating a new class to try out all the possible numbers before
-    // checking if its valid or not to add the possible solutions to the lists of options. I've also created a new constructor
-    // and getters to fully able to use the class in this method.
+    // Although I can create this method in the main class without any changes at all. I created it inside
+    // the board class since the solve method, which is the method where getNeighbors is only called at,
+    // exist in the board class.
     private static List<String[][]> getNeighbors(String[][] board) {
         List<String[][]> options = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
