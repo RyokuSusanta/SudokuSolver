@@ -12,10 +12,10 @@ public class Board {
         this.board = newFile.readFile(filePath);
     }
 
-    public Board(String[][] board) {
+    public Board(Board board) {
         this.board = new String[9][9];
         for (int i = 0; i < 9; i++) {
-            this.board[i] = Arrays.copyOf(board[i], 9);
+            this.board[i] = Arrays.copyOf(board.getRow(i), 9);
         }
 
     }
@@ -87,52 +87,16 @@ public class Board {
         return isValid();
     }
 
-    // I've created the solve inside the board class so I can utilize the field in the board rather
-    // than passing a parameter if I created it inside the main class.
-    public void solve() {
-        int unfilled = 0;
+    public static List<Board> getNeighbors(Board board) {
+        List<Board> options = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (board[i][j].equals(".")) {
-                    unfilled++;
-                }
-            }
-        }
-
-        this.board = solveHelper(this.board, unfilled);
-    }
-
-    private static String[][] solveHelper(String[][] board, int unfilled) {
-        if (unfilled == 0) {
-            return board;
-        }
-
-        for (String[][] option : getNeighbors(board)) {
-            String[][] result = solveHelper(option, unfilled - 1);
-            if (result != null) {
-                return result;
-            }
-        }
-        return null;
-    }
-
-    // Although I can create this method in the main class without any changes at all. I created it inside
-    // the board class since the solve method, which is the method where getNeighbors is only called at,
-    // exist in the board class.
-    private static List<String[][]> getNeighbors(String[][] board) {
-        List<String[][]> options = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j].equals(".")) {
+                if (board.getBoard()[i][j].equals(".")) {
                     for (int k = 1; k < 10; k++) {
-                        board[i][j] = Integer.toString(k);
+                        board.getBoard()[i][j] = Integer.toString(k);
                         Board classBoard = new Board(board);
                         if (classBoard.isValid()) {
-                            String[][] possibleBoard = new String[9][9];
-                            for (int l = 0; l < 9; l++) {
-                                possibleBoard[l] = Arrays.copyOf(classBoard.getRow(l), 9);
-                            }
-                            options.add(possibleBoard);
+                            options.add(classBoard);
                         }
                     }
                 }
